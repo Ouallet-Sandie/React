@@ -20,7 +20,7 @@ function App() {
     })
     .then(data => data.json())
     .then(json => console.log(json))
-  }, [])
+  }, []); 
 
 
 

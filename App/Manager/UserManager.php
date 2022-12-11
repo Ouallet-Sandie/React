@@ -49,25 +49,11 @@ class UserManager extends BaseManager
         return new User($data);
     }
 
-    public function getUsernameById(int $id): ?array
-    {
-        $query = $this->pdo->prepare("SELECT username FROM User WHERE id = :id");
-        $query->bindValue('id', $id);
-        $query->execute();
-
-        $data = $query->fetch(\PDO::FETCH_ASSOC);
-
-        if (!$data) return null;
-
-        return $data;
-    }
-
     public function insertUser(User $user): bool
     {
-        $query = $this->pdo->prepare("INSERT INTO User (username, password, email) VALUES (:username, :password, :email);");
+        $query = $this->pdo->prepare("INSERT INTO User (username, password) VALUES (:username, :password);");
         $query->bindValue('username', $user->getUsername());
         $query->bindValue('password', $user->getPassword());
-        $query->bindValue('email', $user->getEmail());
         return (bool)$query->execute();
     }
 }

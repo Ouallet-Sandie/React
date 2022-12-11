@@ -1,17 +1,13 @@
 <?php
-
 namespace App\Controller;
 
 header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: authorization');
 
-
-
 use App\Factory\PDOFactory;
 use App\Manager\UserManager;
 use App\Entity\User;
-
 
 
 $username = $_SERVER['PHP_AUTH_USER'] ?? "";
@@ -44,11 +40,7 @@ class UserController extends AbstractController
 
     public function register()
     {
-        if (isset($_POST['username']) && isset($_POST['password'])) {
-
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
+        if (isset($username) && isset($password)) {
 
             $manager = new UserManager(new PDOFactory());
             $user = $manager->getUserByUsername($username);
@@ -57,9 +49,9 @@ class UserController extends AbstractController
                 throw new \Exception('trop ici');
             }
 
-            if ($_POST['password'] !== $_POST['confirmPassword']) {
-                throw new \Exception('bad password');
-            }
+            // if ($_POST['password'] !== $_POST['confirmPassword']) {
+            //     throw new \Exception('bad password');
+            // }
 
             $newUser = (new User())
                 ->setUsername($username)
@@ -68,7 +60,7 @@ class UserController extends AbstractController
 
 
             if (!$manager->insertUser($newUser)) {
-                throw new \Exception('insert foireux');
+                throw new \Exception("problème d'insert");
             }
 
 
@@ -107,7 +99,8 @@ class UserController extends AbstractController
 
             exit;
         }
-        $this->render("login.php", [], 'login');
+        // $this->render("login.php", [], 'login');
+        header('Location: /login');
 
     }
 }

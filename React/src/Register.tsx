@@ -28,7 +28,7 @@ export default function Register() {
     return (
       <div>
         <form onSubmit={handleSubmit}>
-          <h1>Login</h1>
+          <h1>Register</h1>
           <input type="text" name="username" placeholder="username" onChange={(e) => setUsername(e.target.value)} />
           <input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
   
