@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+
+    # front:
+    #     build:
+    #         context: ./REACTConf
+    #         dockerfile: Dockerfile
+    #     ports:
+    #         - "3000:3000"
+    #     volumes:
+    #         - ./React:/project
+    #     # command: npx create-react-app . --template typescript
+    #     # command: npm install react-router-dom
+    #     command: npm run start
+
+    php:
+        build:
+            context: ./PHPConfig
+            dockerfile: Dockerfile
+        ports:
+            - "4343:80"
+        restart: always
+        volumes:
+            - ./app:/var/www/html
+
+    db:
+        image: mariadb:10.9.3
+        restart: always
+        environment:
+            MARIADB_DATABASE: data
+            MARIADB_ROOT_PASSWORD: root
+        volumes:
+            #- db_data:/var/lib/mysql
+            - ./database/db.sql:/docker-entrypoint-initdb.d/db.sql
+
+    adminer:
+        image: adminer
+        ports:
+            - '5000:8080'
